@@ -18,9 +18,9 @@ public class BackgroundMovement : MonoBehaviour
         Vector3 newPos = transform.position;
         newPos.x -= 0.01f;
         newPos.y = cameraPos.y;
-        if (newPos.x <= -35.40464f)
+        if (newPos.x <= -13.5f)
         {
-            newPos.x = 35.40464f;
+            newPos.x = 13.5f;
         }
 
         transform.position = newPos;
