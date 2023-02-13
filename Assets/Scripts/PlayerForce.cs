@@ -25,9 +25,6 @@ public class PlayerForce : MonoBehaviour
     public GameObject textBox;
     public int starNum = 0;
 
-
-    //public AudioSource mySource;
-    //public AudioClip jumpClip;
     // Start is called before the first frame update
     void Start()
     {

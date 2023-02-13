@@ -10,6 +10,9 @@ public class PlayerJump : MonoBehaviour
     public float squeezeSpeed = 2f;
     public bool isJumping = false;
 
+    public AudioSource mySource;
+    public AudioClip jumpClip;
+
     public GameObject stop;
 
     public GameObject mainBody;
@@ -51,6 +54,7 @@ public class PlayerJump : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            mySource.PlayOneShot(jumpClip);
             isJumping = true;
             stop.GetComponent<stopPosition>().yPosition = mainBody.GetComponent<PlayerForce>().power * 10;
             stop.SetActive(true);
