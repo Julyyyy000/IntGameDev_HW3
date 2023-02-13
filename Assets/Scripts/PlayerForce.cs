@@ -12,12 +12,11 @@ public class PlayerForce : MonoBehaviour
     JointMotor2D leftMotor;
     JointMotor2D rightMotor;
 
+    public GameObject PlayerJump;
+
     //Squat
     public HingeJoint2D leftThigh;
     public HingeJoint2D rightThigh;
-    private JointAngleLimits2D leftThighLimits;
-    private JointAngleLimits2D rightThighLimits;
-    private float squatAngle = 30f;
 
     //public AudioSource mySource;
     //public AudioClip jumpClip;
@@ -31,9 +30,6 @@ public class PlayerForce : MonoBehaviour
         rightMotor.motorSpeed = armAngle;
         leftArm.motor = leftMotor;
         rightArm.motor = rightMotor;
-
-        leftThighLimits = leftThigh.limits;
-        rightThighLimits = rightThigh.limits;
     }
 
     // Update is called once per frame
@@ -62,31 +58,36 @@ public class PlayerForce : MonoBehaviour
             rightArm.motor = rightMotor;
         }
 
-        if (Input.GetKey(KeyCode.W))
+        if (PlayerJump.GetComponent<PlayerJump>().isJumping)
         {
             mainBody.velocity = new Vector3(0, power, 0);
 
         }
+
+        /*
+        
         if (Input.GetKey(KeyCode.S))
         {
-            JointMotor2D leftThighMotor = leftThigh.GetComponent<HingeJoint2D>().motor;
-            leftThighMotor.motorSpeed = -100f;
-            leftThigh.GetComponent<HingeJoint2D>().motor = leftThighMotor;
+            JointMotor2D leftThighMotor = leftThigh.motor;
+            leftThighMotor.motorSpeed = -100;
+            leftThigh.motor = leftThighMotor;
 
-            JointMotor2D rightThighMotor = rightThigh.GetComponent<HingeJoint2D>().motor;
-            rightThighMotor.motorSpeed = 100f;
-            rightThigh.GetComponent<HingeJoint2D>().motor = rightThighMotor;
+            JointMotor2D rightThighMotor = rightThigh.motor;
+            rightThighMotor.motorSpeed = 100;
+            rightThigh.motor = rightThighMotor;
         }
         else
         {
-            JointMotor2D leftThighMotor = leftThigh.GetComponent<HingeJoint2D>().motor;
-            leftThighMotor.motorSpeed = 0f;
-            leftThigh.GetComponent<HingeJoint2D>().motor = leftThighMotor;
+            JointMotor2D leftThighMotor = leftThigh.motor;
+            leftThighMotor.motorSpeed = 100;
+            leftThigh.motor = leftThighMotor;
 
-            JointMotor2D rightThighMotor = rightThigh.GetComponent<HingeJoint2D>().motor;
-            rightThighMotor.motorSpeed = 0f;
-            rightThigh.GetComponent<HingeJoint2D>().motor = rightThighMotor;
+            JointMotor2D rightThighMotor = rightThigh.motor;
+            rightThighMotor.motorSpeed = -100;
+            rightThigh.motor = rightThighMotor;
         }
+        */
+        
         /*
         if (Input.GetKey(KeyCode.A))
         {
