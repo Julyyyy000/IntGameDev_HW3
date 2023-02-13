@@ -37,7 +37,7 @@ public class PlayerJump : MonoBehaviour
             currentScale.y = Mathf.Lerp(currentScale.y, minScaleY, Time.deltaTime * squeezeSpeed);
             if (mainBody.GetComponent<PlayerForce>().power < 10)
             {
-                mainBody.GetComponent<PlayerForce>().power += 0.02f;
+                mainBody.GetComponent<PlayerForce>().power += 0.04f;
             }
         }
         else

@@ -24,7 +24,6 @@ public class PlayerForce : MonoBehaviour
     //Ending display
     public GameObject textBox;
     public int starNum = 0;
-    bool finishedGame;
 
 
     //public AudioSource mySource;
@@ -117,18 +116,16 @@ public class PlayerForce : MonoBehaviour
         if (collision.gameObject.name == "stop")
         {
             PlayerJump.GetComponent<PlayerJump>().isJumping = false;
-        }
-
-        if (collision.gameObject.name == "block" && finishedGame)
-        {
             if (starNum >= 5)
             {
                 textBox.GetComponent<TextMeshProUGUI>().text = "You win! You got all 5 stars!";
-            } else {
+            }
+            else
+            {
                 textBox.GetComponent<TextMeshProUGUI>().text = "You lose! You did not get all 5 stars!";
-            }    
+            }
             textBox.SetActive(true);
-        } 
+        }
     }
     /*
     void OnCollisionExit2D(Collision2D other)
