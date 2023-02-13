@@ -8,11 +8,13 @@ public class PlayerForce : MonoBehaviour
     public HingeJoint2D rightArm;
     Rigidbody2D mainBody;
     public float power;
+    float horizontalPower = 2f;
     public float armAngle = 20;
     JointMotor2D leftMotor;
     JointMotor2D rightMotor;
 
     public GameObject PlayerJump;
+    public float gravity = 9.8f;
 
     //Squat
     public HingeJoint2D leftThigh;
@@ -35,6 +37,7 @@ public class PlayerForce : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 newPos = transform.position;
         mainBody.velocity = Vector3.zero;
         if (Input.GetKey(KeyCode.A))
         {
@@ -63,6 +66,22 @@ public class PlayerForce : MonoBehaviour
             mainBody.velocity = new Vector3(0, power, 0);
 
         }
+        if (newPos.y > power*10 || !PlayerJump.GetComponent<PlayerJump>().isJumping)
+        {
+            PlayerJump.GetComponent<PlayerJump>().isJumping = false;
+            mainBody.velocity = new Vector3(0, -20, 0);
+
+        }
+
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            mainBody.velocity = new Vector3(-horizontalPower, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            mainBody.velocity = new Vector3(horizontalPower, 0, 0);
+        }
 
         /*
         
@@ -87,16 +106,23 @@ public class PlayerForce : MonoBehaviour
             rightThigh.motor = rightThighMotor;
         }
         */
-        
-        /*
-        if (Input.GetKey(KeyCode.A))
-        {
-            mainBody.velocity = new Vector3(-power, 0, 0);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            mainBody.velocity = new Vector3(power, 0, 0);
-        }
-        */
     }
+    /*
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "block")
+        {
+            mainBody.isKinematic = true;
+        } 
+    }
+    
+    void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.name == "block")
+        {
+            mainBody.bodyType = RigidbodyType2D.Dynamic;
+        }
+    }
+    */
+    
 }
