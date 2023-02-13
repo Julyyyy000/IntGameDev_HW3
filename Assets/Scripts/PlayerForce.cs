@@ -69,21 +69,23 @@ public class PlayerForce : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.S))
         {
-            leftThighLimits.min = -squatAngle;
-            leftThighLimits.max = squatAngle;
-            rightThighLimits.min = -squatAngle;
-            rightThighLimits.max = squatAngle;
-            leftThigh.limits = leftThighLimits;
-            rightThigh.limits = rightThighLimits;
+            JointMotor2D leftThighMotor = leftThigh.GetComponent<HingeJoint2D>().motor;
+            leftThighMotor.motorSpeed = -100f;
+            leftThigh.GetComponent<HingeJoint2D>().motor = leftThighMotor;
+
+            JointMotor2D rightThighMotor = rightThigh.GetComponent<HingeJoint2D>().motor;
+            rightThighMotor.motorSpeed = 100f;
+            rightThigh.GetComponent<HingeJoint2D>().motor = rightThighMotor;
         }
         else
         {
-            leftThighLimits.min = 0;
-            leftThighLimits.max = 0;
-            rightThighLimits.min = 0;
-            rightThighLimits.max = 0;
-            leftThigh.limits = leftThighLimits;
-            rightThigh.limits = rightThighLimits;
+            JointMotor2D leftThighMotor = leftThigh.GetComponent<HingeJoint2D>().motor;
+            leftThighMotor.motorSpeed = 0f;
+            leftThigh.GetComponent<HingeJoint2D>().motor = leftThighMotor;
+
+            JointMotor2D rightThighMotor = rightThigh.GetComponent<HingeJoint2D>().motor;
+            rightThighMotor.motorSpeed = 0f;
+            rightThigh.GetComponent<HingeJoint2D>().motor = rightThighMotor;
         }
         /*
         if (Input.GetKey(KeyCode.A))
