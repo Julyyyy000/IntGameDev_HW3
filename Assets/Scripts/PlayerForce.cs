@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerForce : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class PlayerForce : MonoBehaviour
     //Squat
     public HingeJoint2D leftThigh;
     public HingeJoint2D rightThigh;
+
+    //Ending display
+    public GameObject textBox;
+    public int starNum = 0;
+    bool finishedGame;
+
 
     //public AudioSource mySource;
     //public AudioClip jumpClip;
@@ -65,20 +72,17 @@ public class PlayerForce : MonoBehaviour
         {
             mainBody.velocity = new Vector3(0, power, 0);
 
-        }
-        if (newPos.y > power*10 || !PlayerJump.GetComponent<PlayerJump>().isJumping)
+        } else
         {
-            PlayerJump.GetComponent<PlayerJump>().isJumping = false;
             mainBody.velocity = new Vector3(0, -20, 0);
-
         }
 
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && newPos.x > -3.3f)
         {
             mainBody.velocity = new Vector3(-horizontalPower, 0, 0);
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) && newPos.x < 3.3f)
         {
             mainBody.velocity = new Vector3(horizontalPower, 0, 0);
         }
@@ -107,15 +111,26 @@ public class PlayerForce : MonoBehaviour
         }
         */
     }
-    /*
+    
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "block")
+        if (collision.gameObject.name == "stop")
         {
-            mainBody.isKinematic = true;
+            PlayerJump.GetComponent<PlayerJump>().isJumping = false;
+        }
+
+        if (collision.gameObject.name == "block" && finishedGame)
+        {
+            if (starNum >= 5)
+            {
+                textBox.GetComponent<TextMeshProUGUI>().text = "You win! You got all 5 stars!";
+            } else {
+                textBox.GetComponent<TextMeshProUGUI>().text = "You lose! You did not get all 5 stars!";
+            }    
+            textBox.SetActive(true);
         } 
     }
-    
+    /*
     void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.name == "block")

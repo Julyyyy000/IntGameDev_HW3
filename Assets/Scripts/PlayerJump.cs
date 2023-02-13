@@ -10,6 +10,8 @@ public class PlayerJump : MonoBehaviour
     public float squeezeSpeed = 2f;
     public bool isJumping = false;
 
+    public GameObject stop;
+
     public GameObject mainBody;
 
     Transform characterTransform;
@@ -35,7 +37,7 @@ public class PlayerJump : MonoBehaviour
             currentScale.y = Mathf.Lerp(currentScale.y, minScaleY, Time.deltaTime * squeezeSpeed);
             if (mainBody.GetComponent<PlayerForce>().power < 10)
             {
-                mainBody.GetComponent<PlayerForce>().power += 0.5f;
+                mainBody.GetComponent<PlayerForce>().power += 0.02f;
             }
         }
         else
@@ -50,6 +52,8 @@ public class PlayerJump : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space))
         {
             isJumping = true;
+            stop.GetComponent<stopPosition>().yPosition = mainBody.GetComponent<PlayerForce>().power * 10;
+            stop.SetActive(true);
         }
         
         characterTransform.position = newPos;
