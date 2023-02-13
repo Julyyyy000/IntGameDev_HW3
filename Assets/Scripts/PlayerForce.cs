@@ -4,28 +4,62 @@ using UnityEngine;
 
 public class PlayerForce : MonoBehaviour
 {
-    public Rigidbody2D armBody;
+    public HingeJoint2D leftArm;
+    public HingeJoint2D rightArm;
     Rigidbody2D mainBody;
     public float power;
+    public float armAngle = 20;
+    JointMotor2D leftMotor;
+    JointMotor2D rightMotor;
 
-    public AudioSource mySource;
-    public AudioClip jumpClip;
+    //Squat
+    public HingeJoint2D leftThigh;
+    public HingeJoint2D rightThigh;
+    private JointAngleLimits2D leftThighLimits;
+    private JointAngleLimits2D rightThighLimits;
+    private float squatAngle = 30f;
+
+    //public AudioSource mySource;
+    //public AudioClip jumpClip;
     // Start is called before the first frame update
     void Start()
     {
         mainBody = GetComponent<Rigidbody2D>();
+        leftMotor = leftArm.motor;
+        rightMotor = rightArm.motor;
+        leftMotor.motorSpeed = -armAngle;
+        rightMotor.motorSpeed = armAngle;
+        leftArm.motor = leftMotor;
+        rightArm.motor = rightMotor;
+
+        leftThighLimits = leftThigh.limits;
+        rightThighLimits = rightThigh.limits;
     }
 
     // Update is called once per frame
     void Update()
     {
         mainBody.velocity = Vector3.zero;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.A))
         {
-            //mySource.PlayOneShot(jumpClip);
-            mySource.clip = jumpClip;
-            mySource.Play();
-            armBody.AddForce(transform.up * power, ForceMode2D.Impulse);
+            leftMotor.motorSpeed = armAngle;
+            leftArm.motor = leftMotor;
+        }
+        else
+        {
+            leftMotor.motorSpeed = -armAngle;
+            leftArm.motor = leftMotor;
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            rightMotor.motorSpeed = -armAngle;
+            rightArm.motor = rightMotor;
+        }
+        else
+        {
+            rightMotor.motorSpeed = armAngle;
+            rightArm.motor = rightMotor;
         }
 
         if (Input.GetKey(KeyCode.W))
@@ -35,9 +69,23 @@ public class PlayerForce : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.S))
         {
-            mainBody.velocity = new Vector3(0, -power, 0);
+            leftThighLimits.min = -squatAngle;
+            leftThighLimits.max = squatAngle;
+            rightThighLimits.min = -squatAngle;
+            rightThighLimits.max = squatAngle;
+            leftThigh.limits = leftThighLimits;
+            rightThigh.limits = rightThighLimits;
         }
-
+        else
+        {
+            leftThighLimits.min = 0;
+            leftThighLimits.max = 0;
+            rightThighLimits.min = 0;
+            rightThighLimits.max = 0;
+            leftThigh.limits = leftThighLimits;
+            rightThigh.limits = rightThighLimits;
+        }
+        /*
         if (Input.GetKey(KeyCode.A))
         {
             mainBody.velocity = new Vector3(-power, 0, 0);
@@ -46,5 +94,6 @@ public class PlayerForce : MonoBehaviour
         {
             mainBody.velocity = new Vector3(power, 0, 0);
         }
+        */
     }
 }
